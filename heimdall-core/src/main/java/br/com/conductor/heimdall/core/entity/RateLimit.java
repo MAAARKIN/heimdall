@@ -32,7 +32,6 @@ import br.com.conductor.heimdall.core.util.LocalDateTimeDeserializer;
 import br.com.conductor.heimdall.core.util.LocalDateTimeSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * Represents a view of rate limit that client will define how many requests can be executed by the user. 

@@ -168,5 +168,14 @@ public class Property {
     	 private Integer allowInactive;
     	 private Boolean deleteDeprecated;
      }
+     
+     private Fallback fallback = new Fallback();
+     
+     @Data
+     public class Fallback {
+    	 private Integer attempts;
+    	 private Long secondsToHoldRequest;
+    	 private List<Integer> httpCodeToBlock = new ArrayList<>();
+     }
 
 }
