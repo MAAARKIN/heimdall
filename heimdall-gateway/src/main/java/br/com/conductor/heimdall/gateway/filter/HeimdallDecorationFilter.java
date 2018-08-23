@@ -269,6 +269,14 @@ public class HeimdallDecorationFilter extends PreDecorationFilter {
 
     protected HeimdallRoute getMatchingHeimdallRoute(String requestURI, String method, RequestContext ctx) {
 
+    	for (String path : routeLocator.getIgnoredPaths()) {
+    		if (path != null && !path.isEmpty()) {
+    			if (this.pathMatcher.match(path, requestURI)) {
+    				return null;
+    			}
+    		}
+    	}
+    	
         boolean auxMatch = false;
         for (Entry<String, ZuulRoute> entry : routeLocator.getAtomicRoutes().get().entrySet()) {
             if (Objeto.notBlank(entry.getKey())) {

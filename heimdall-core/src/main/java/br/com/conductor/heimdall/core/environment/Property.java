@@ -38,6 +38,7 @@ import lombok.Data;
 public class Property {
 
      private String contextPath;
+     private String servletName;
 
      private Splunk splunk = new Splunk();
 

@@ -32,6 +32,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
@@ -60,9 +61,6 @@ public class TraceFilter implements Filter {
 	@Value("${info.app.profile}")
 	private String profile;
 
-	@Value("${management.context-path}")
-	private String managerPath;
-
 	@Autowired
 	private Property prop;
 
@@ -79,8 +77,7 @@ public class TraceFilter implements Filter {
 		HttpServletResponse response = (HttpServletResponse) res;
 		try {
 
-			trace = TraceContextHolder.getInstance().init(prop.getTrace().isPrintAllTrace(), profile, request,
-					prop.getMongo().getEnabled());
+			trace = TraceContextHolder.getInstance().init(prop.getTrace().isPrintAllTrace(), profile, request, prop.getMongo().getEnabled());
 			if (shouldDisableTrace(request)) {
 				trace.setShouldPrint(false);
 			}
@@ -130,6 +127,12 @@ public class TraceFilter implements Filter {
 	public boolean shouldDisableTrace(ServletRequest request) {
 
 		String uri = ((HttpServletRequest) request).getRequestURI();
-		return (uri.equalsIgnoreCase("/") || uri.startsWith(managerPath));
+		String uriManager = prop.getServletName();
+		if (prop.getServletName().endsWith("/*")) {
+			uriManager = StringUtils.removeEnd(prop.getServletName(), "/*");
+		} else if (prop.getServletName().endsWith("/")) {
+			uriManager = StringUtils.removeEnd(prop.getServletName(), "/");
+		}
+		return (uri.equalsIgnoreCase("/") || uri.startsWith(uriManager));
 	}
 }

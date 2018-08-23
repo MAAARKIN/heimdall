@@ -26,6 +26,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.DispatcherServletAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.cache.annotation.EnableCaching;
@@ -44,7 +45,7 @@ import br.com.conductor.heimdall.core.util.RabbitQueueUtils;
  * @author Marcos Filho
  *
  */
-@SpringBootApplication(exclude = {MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
+@SpringBootApplication(exclude = {MongoAutoConfiguration.class, MongoDataAutoConfiguration.class, DispatcherServletAutoConfiguration.class})
 @EnableConfigurationProperties({ Property.class })
 @ComponentScan(basePackages = { "br.com.conductor.heimdall.gateway", "br.com.conductor.heimdall.core" })
 @EntityScan("br.com.conductor.heimdall.core.entity")

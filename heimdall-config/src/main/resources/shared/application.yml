@@ -5,10 +5,11 @@ info:
         description: "@description@"
         version: "@project.version@"
 
-server:
-    context-path: /
+#server:
+    #context-path: /
 
 heimdall:
+    servletName: /manager/*
     contextPath: /heimdall/v1
     hostname: hostname
     excludeRabbit: true
@@ -126,7 +127,7 @@ endpoints:
         enabled: true
 
 management:
-    context-path: /manager
+    context-path: /
     security:
         enabled: false
     health:
