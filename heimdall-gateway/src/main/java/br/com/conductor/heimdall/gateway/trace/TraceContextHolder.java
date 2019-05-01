@@ -26,6 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.ServletRequest;
 
+import br.com.conductor.heimdall.gateway.azure.AzureLogger;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -74,10 +75,10 @@ public class TraceContextHolder {
       * @param version 
       * @return					{@link Trace}
       */
-     public Trace init(boolean printAllTrace, String profile, ServletRequest request, boolean printMongo, boolean printLogstash, String version) {
+     public Trace init(boolean printAllTrace, String profile, ServletRequest request, boolean printMongo, boolean printLogstash, String version, AzureLogger azureLogger) {
           String uuid = UUID.randomUUID().toString();
           contextHolder.set(uuid);
-          traceMap.put(uuid, new Trace(printAllTrace, profile, request, printMongo, printLogstash, version));
+          traceMap.put(uuid, new Trace(printAllTrace, profile, request, printMongo, printLogstash, version, azureLogger));
           
           log.debug("Initializing TraceContext with ID: {}", uuid);
           return getActualTrace();

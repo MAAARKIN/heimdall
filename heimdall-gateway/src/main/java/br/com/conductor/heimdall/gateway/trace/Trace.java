@@ -1,6 +1,31 @@
 
 package br.com.conductor.heimdall.gateway.trace;
 
+import static net.logstash.logback.marker.Markers.append;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 /*-
  * =========================LICENSE_START==================================
  * heimdall-gateway
@@ -25,28 +50,12 @@ import br.com.conductor.heimdall.core.exception.ExceptionMessage;
 import br.com.conductor.heimdall.core.exception.HeimdallException;
 import br.com.conductor.heimdall.core.util.LocalDateTimeSerializer;
 import br.com.conductor.heimdall.core.util.UrlUtil;
+import br.com.conductor.heimdall.gateway.azure.AzureLogger;
 import br.com.conductor.heimdall.middleware.spec.StackTrace;
 import br.com.twsoftware.alfred.object.Objeto;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.time.LocalDateTime;
-import java.util.*;
-
-import static net.logstash.logback.marker.Markers.append;
 
 /**
  * Represents the trace message.
@@ -126,6 +135,9 @@ public class Trace {
 
      private String version;
      
+     @JsonIgnore
+     private AzureLogger azureLogger;
+     
      public Trace() {
     	 
      }
@@ -177,9 +189,10 @@ public class Trace {
       * @param printLogstash
       * @param version
       */
-     public Trace(boolean printAllTrace, String profile, ServletRequest servletRequest, boolean printMongo, boolean printLogstash, String version) {
+     public Trace(boolean printAllTrace, String profile, ServletRequest servletRequest, boolean printMongo, boolean printLogstash, String version, AzureLogger azureLogger) {
     	 this(printAllTrace, profile, servletRequest, printMongo, printLogstash);
     	 this.version = version;
+    	 this.azureLogger = azureLogger;
      }
 
 	/**
@@ -262,6 +275,7 @@ public class Trace {
 
                if (isInfo(statusCode)) {
 
+            	   azureLogger.pushLogsToAzure(mapper.writeValueAsString(this));
                     log.info(" [HEIMDALL-TRACE] - {} ", mapper.writeValueAsString(this));
                } else if (isWarn(statusCode)) {
 

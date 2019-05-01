@@ -163,6 +163,13 @@ public class Property {
      public class Trace {
           private boolean printAllTrace = false;
           private List<String> sanitizes = new ArrayList<>();
+          private Azure azure = new Azure();
+          
+          @Data
+          public class Azure {
+        	  private String sharedKey;
+        	  private String workspaceId;
+          }
      }
      
      private Middlewares middlewares = new Middlewares();

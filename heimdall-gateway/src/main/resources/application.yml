@@ -58,6 +58,9 @@ heimdall:
         sanitizes:
             - access_token
             - client_id
+        azure:
+            shared-key: sharedkey
+            workspace-id: workspaceid
     redis:
         host: 127.0.0.1
         port: 6379
@@ -91,6 +94,9 @@ sentry:
         active: dev
 
 spring:
+    application:
+        name: heimdall
+        version: v2
     pid:
         fail-on-write-error: false
         file: heimdall.pid

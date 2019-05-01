@@ -84,7 +84,11 @@ public class CacheZuulRouteStorage implements ZuulRouteStorage {
 			destination = "sandbox";
 		}
 
-		List<String> apiPathConcatWithOperationPaths = operationJDBCRepository.findOperationsFromAllApis(apiIds);
+		List<String> apiPathConcatWithOperationPaths = null;
+		if (apiIds != null && !apiIds.isEmpty()) {
+			
+			apiPathConcatWithOperationPaths = operationJDBCRepository.findOperationsFromAllApis(apiIds);
+		}
 
 		if (Objects.nonNull(apiPathConcatWithOperationPaths) && !apiPathConcatWithOperationPaths.isEmpty()) {
 

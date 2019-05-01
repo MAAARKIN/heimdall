@@ -40,6 +40,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import br.com.conductor.heimdall.core.environment.Property;
+import br.com.conductor.heimdall.gateway.azure.AzureLogger;
 import br.com.conductor.heimdall.gateway.trace.StackTraceImpl;
 import br.com.conductor.heimdall.gateway.trace.Trace;
 import br.com.conductor.heimdall.gateway.trace.TraceContextHolder;
@@ -69,6 +70,9 @@ public class TraceFilter implements Filter {
 	
 	@Autowired
 	private BuildProperties buildProperties;
+	
+	@Autowired
+	private AzureLogger azureLogger;
 
 	@Override
 	public void destroy() {
@@ -84,7 +88,7 @@ public class TraceFilter implements Filter {
 		try {
 
 			trace = TraceContextHolder.getInstance().init(prop.getTrace().isPrintAllTrace(), profile, request,
-			prop.getMongo().getEnabled(), prop.getLogstash().getEnabled(), buildProperties.getVersion());
+			prop.getMongo().getEnabled(), prop.getLogstash().getEnabled(), buildProperties.getVersion(), azureLogger);
 			if (shouldDisableTrace(request)) {
 				trace.setShouldPrint(false);
 			}
