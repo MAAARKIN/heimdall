@@ -243,7 +243,6 @@ public enum ExceptionMessage {
             default:
                 throw new ServerErrorException(this);
         }
-        
     }
 
     /**

@@ -32,6 +32,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -65,7 +66,7 @@ public class AccessTokenResourceTest {
 
          Authentication authentication =
                  new UsernamePasswordAuthenticationToken("tester", "password",
-                         Collections.singletonList(new SimpleGrantedAuthority("CREATE_ACCESSTOKEN")));
+                		 Arrays.asList(new SimpleGrantedAuthority("CREATE_ACCESSTOKEN")));
 
          Mockito.when(tokenAuthenticationService.getAuthentication(Mockito.any(), Mockito.any())).thenReturn(authentication);
          mockMvc = MockMvcBuilders.webAppContextSetup(context)

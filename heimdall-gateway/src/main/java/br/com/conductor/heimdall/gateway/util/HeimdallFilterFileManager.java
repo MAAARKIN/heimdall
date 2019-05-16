@@ -96,7 +96,7 @@ public class HeimdallFilterFileManager {
             public void run() {
                 while (bRunning) {
                     try {
-                        sleep(pollingIntervalSeconds * 1000);
+                        sleep(pollingIntervalSeconds * 1000l);
                         manageFiles();
                     } catch (Exception e) {
                     	log.error(e.getMessage(), e);

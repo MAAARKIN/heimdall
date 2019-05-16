@@ -48,7 +48,7 @@ public class CORSFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
+    	// Not used
     }
 
     @Override
@@ -72,6 +72,6 @@ public class CORSFilter implements Filter {
 
     @Override
     public void destroy() {
-
+    	// Not used
     }
 }

@@ -51,7 +51,7 @@ public class DataBaseConfiguration implements EnvironmentAware {
      @Autowired
      Property property;
 
-     private final String SQL_SERVER = "SQL_SERVER";
+     private static final String SQL_SERVER = "SQL_SERVER";
 
      @Value("${spring.jpa.database}")
      private String database;
