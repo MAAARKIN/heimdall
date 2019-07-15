@@ -61,7 +61,7 @@ import io.swagger.models.Swagger;
 @Service
 public class ApiService {
 
-    private final RedisRoutePublisher amqpRoute;
+    private final RedisRoutePublisher redisRoutePublisher;
     private final ApiRepository apiRepository;
     private final EnvironmentService environmentService;
     private final InterceptorService interceptorService;
@@ -69,14 +69,14 @@ public class ApiService {
     private final ResourceService resourceService;
     private final SwaggerService swaggerService;
 
-    public ApiService(RedisRoutePublisher amqpRoute,
+    public ApiService(RedisRoutePublisher redisRoutePublisher,
                       ApiRepository apiRepository,
                       EnvironmentService environmentService,
                       InterceptorService interceptorService,
                       PlanService planService,
                       ResourceService resourceService,
                       SwaggerService swaggerService) {
-        this.amqpRoute = amqpRoute;
+        this.redisRoutePublisher = redisRoutePublisher;
         this.apiRepository = apiRepository;
         this.environmentService = environmentService;
         this.interceptorService = interceptorService;
@@ -165,7 +165,7 @@ public class ApiService {
 
         final Api savedApi = apiRepository.save(api);
 
-        amqpRoute.dispatchRoutes();
+        redisRoutePublisher.dispatchRoutes();
         return savedApi;
     }
 
@@ -193,7 +193,7 @@ public class ApiService {
 
         final Api savedApi = apiRepository.save(updatedApi);
 
-        amqpRoute.dispatchRoutes();
+        redisRoutePublisher.dispatchRoutes();
         return savedApi;
     }
 
@@ -220,7 +220,7 @@ public class ApiService {
 
         api = apiRepository.save(api);
 
-        amqpRoute.dispatchRoutes();
+        redisRoutePublisher.dispatchRoutes();
 
         return api;
     }
@@ -239,7 +239,7 @@ public class ApiService {
         interceptorService.deleteAllFromApi(id);
 
         apiRepository.delete(api);
-        amqpRoute.dispatchRoutes();
+        redisRoutePublisher.dispatchRoutes();
     }
 
     /**

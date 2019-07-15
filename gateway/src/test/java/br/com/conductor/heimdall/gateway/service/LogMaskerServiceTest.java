@@ -1,9 +1,6 @@
-/*-
- * =========================LICENSE_START==================================
- * heimdall-gateway
- * ========================================================================
+/*
  * Copyright (C) 2018 Conductor Tecnologia SA
- * ========================================================================
+ *
  * Licensed under the Apache License, Version 2.0 (the "License")
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * ==========================LICENSE_END===================================
  */
 package br.com.conductor.heimdall.gateway.service;
 
@@ -46,7 +42,7 @@ public class LogMaskerServiceTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        TraceContextHolder.getInstance().init(true,"developer", new MockHttpServletRequest(),false,"",true);
+        TraceContextHolder.getInstance().init(true,"developer", new MockHttpServletRequest(),false,true);
 
         Map<String, String> headers = new HashMap<>();
         headers.put("connection", "Keep-alive");
